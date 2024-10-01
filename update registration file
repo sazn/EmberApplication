@@ -1,0 +1,92 @@
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+
+export default class RegistrationsEditController extends Controller {
+  // Inject the router service to handle transitions
+  @service router;
+
+  // @action
+  // async updateRegistration(event) {
+  //   event.preventDefault();
+
+  //   try {
+  //     console.log('model before saving:', this.model);
+
+  //     // Save the updated model to the backend
+  //     await this.model.save();
+
+  //     // Notify the user about the successful update
+  //     alert('Registration updated successfully!');
+
+  //     // Transition to the 'registrations' route
+  //     this.router.transitionTo('registrations');
+  //   } catch (error) {
+  //     console.error('Error updating registration:', error);
+  //   }
+  // }
+
+  @action
+  async updateRegistration(event) {
+    event.preventDefault();
+
+    // Ensure all fields have values before proceeding
+    if (!this.model.name || !this.model.email || !this.model.password || !this.model.accountType) {
+      alert('All fields are required.');
+      return;
+    }
+
+    // Create the payload for the API request without circular references
+    let updatedRegistration = {
+      id: this.model.id, // Include ID for update
+      name: this.model.name,
+      email: this.model.email,
+      password: this.model.password,
+      accountType: this.model.accountType,
+      createdAt: this.model.createdAt // Assuming this is not being changed
+    };
+    // https://localhost:44386/api/Registrations/3
+    try {
+      // Perform the API request using fetch
+      let response = await fetch(`https://localhost:44386/api/registrations/${this.model.id}`, {
+        method: 'PUT', // Use PUT for update requests
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedRegistration) // Pass the plain object, not Ember's store record
+      });
+
+      if (response.ok) {
+        // Handle success response
+        alert('Registration updated successfully!');
+        this.router.transitionTo('registrations');
+        // this.transitionToRoute('registrations'); // Redirect to registrations list
+      } else {
+        // Handle error response
+        let errorData = await response.json();
+        console.error('Error from API:', errorData);
+        alert('Failed to update registration. Please check your inputs.');
+      }
+    } catch (error) {
+      console.error('Error updating registration to API:', error);
+    }
+  }
+
+  // Action to set the name property on the model
+  @action
+  setName(value) {
+    this.model.set('name', value); // Use model.set() to update the property
+  }
+
+  // Action to set the email property on the model
+  @action
+  setEmail(value) {
+    this.model.set('email', value);
+  }
+
+  // Action to set the accountType property on the model
+  @action
+  setAccountType(value) {
+    this.model.set('accountType', value);
+  }
+}
