@@ -1,0 +1,7 @@
+{{!-- app/templates/registrations.hbs --}}
+<h2>Registration List</h2>
+<ul>
+  {{#each this.model as |registration|}}
+    <li>{{registration.name}} - {{registration.email}} - {{registration.accountType}}</li>
+  {{/each}}
+</ul>

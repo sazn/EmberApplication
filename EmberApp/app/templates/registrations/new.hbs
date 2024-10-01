@@ -1,0 +1,44 @@
+{{!-- app/templates/registrations/new.hbs
+<div class="container mt-5">
+    <h1 class="mb-4">Create New Registration</h1>
+
+    <form {{on "submit" this.createRegistration}}>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" value={{this.name}}
+                oninput={{action (mut this.name) value="target.value" }}>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" value={{this.email}}
+                oninput={{action (mut this.email) value="target.value" }}>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password"
+                value={{this.password}} oninput={{action (mut this.password) value="target.value" }}>
+        </div>
+        <div class="mb-3">
+            <label for="accountType" class="form-label">Account Type</label>
+            <input type="text" class="form-control" id="accountType" placeholder="Enter account type"
+                value={{this.accountType}} oninput={{action (mut this.accountType) value="target.value" }}>
+        </div>
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
+</div> --}}
+
+<form {{on "submit" this.createRegistration}}>
+  <label for="name">Name</label>
+  <input id="name" type="text" value={{this.model.name}} {{on "input" (fn this.updateField "name")}} />
+
+  <label for="email">Email</label>
+  <input id="email" type="email" value={{this.model.email}} {{on "input" (fn this.updateField "email")}} />
+
+  <label for="password">Password</label>
+  <input id="password" type="password" value={{this.model.password}} {{on "input" (fn this.updateField "password")}} />
+
+  <label for="accountType">Account Type</label>
+  <input id="accountType" type="text" value={{this.model.accountType}} {{on "input" (fn this.updateField "accountType")}} />
+
+  <button type="submit">Create</button>
+</form>
