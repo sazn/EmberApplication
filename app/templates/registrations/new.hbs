@@ -1,0 +1,15 @@
+<form {{on "submit" this.createRegistration}}>
+  <label for="name">Name</label>
+  <input id="name" type="text" value={{this.model.name}} {{on "input" (fn this.updateField "name")}} />
+
+  <label for="email">Email</label>
+  <input id="email" type="email" value={{this.model.email}} {{on "input" (fn this.updateField "email")}} />
+
+  <label for="password">Password</label>
+  <input id="password" type="password" value={{this.model.password}} {{on "input" (fn this.updateField "password")}} />
+
+  <label for="accountType">Account Type</label>
+  <input id="accountType" type="text" value={{this.model.accountType}} {{on "input" (fn this.updateField "accountType")}} />
+
+  <button type="submit">Create</button>
+</form>
